@@ -30,6 +30,6 @@ function sumofSomething(a,b,callback){
 
   return val1+ val2
 }
-
 const ans = sumofSomething(3,4, cubes)
 console.log(ans);
+
