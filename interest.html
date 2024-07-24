@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+
+<body>
+  <input id="principalamount" type="text" placeholder="principal Amount" ><br> </br>
+  <input id="rateinterest" type="text" placeholder="rate of interest" ><br> </br>
+  <input id="timeperiod" type="text" placeholder="time period" ><br> </br>
+
+ <button onclick="calculateInterest()" > Interest </button> <br> </br>
+ <button onclick="calculateTotal()"  > Total </button>
+ <div id="finalinterest"></div>
+ <div id="finalTotal"></div>
+
+<script>
+  // we will create an simple interest frontend connecting to the backend
+
+  async function calculateInterest(){
+    const principal = document.getElementById('principalamount').value;
+    const rate = document.getElementById('rateinterest').value;
+    const time = document.getElementById('timeperiod').value;
+    
+
+   const response =  await fetch(`http://localhost:3000/getInterest?principal=${principal}&rate=${rate}&time=${time}`);
+   const data = await response.json();
+   document.getElementById('finalinterest').innerText = "Interest:" + data.interest;
+   
+  }
+
+  async function calculateTotal(){
+    const principal = document.getElementById('principalamount').value;
+    const rate = document.getElementById('rateinterest').value;
+    const time = document.getElementById('timeperiod').value;
+
+    
+    const response =  await fetch(`http://localhost:3000/getInterest?principal=${principal}&rate=${rate}&time=${time}`)
+    const data = await response.json();
+    document.getElementById('finalTotal').innerText =  "Total:" + data.total;
+  }
+</script>
+
+</body>
+</html>

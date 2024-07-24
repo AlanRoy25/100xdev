@@ -1,0 +1,53 @@
+<!--This is connceting frontend to backend using fetch-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+  </style>
+</head>
+
+<body>
+  <input id="firstnumber" oninput="debouncing()" type="text" placeholder="first Number"> <br> <br>
+  <input id="secondnumber"  oninput="debouncing()" type="text" placeholder="second Number"> <br> <br>
+  <!-- <button onclick="populatediv()">Calculate Sum</button> -->
+  <div id="finalsum"></div>
+
+  <script>
+    //using debouncing & throttling
+    let timeout;
+    function debouncing(){ // THIS LETS  uh to delay the requests send by not overloading the server by minizing the request send
+      //delay the call to populatediv until i ve not been called for 100ms
+      // ive been called atleast once
+      clearTimeout(timeout)
+       timeout = setTimeout(function(){
+        populatediv()
+      },100)
+    }
+    function populatediv() {
+      const a = document.getElementById("firstnumber").value;
+      const b = document.getElementById("secondnumber").value;
+
+      fetch(`http://localhost:3000/sum?a=${a}&b=${b}`) // we have connected backend using the fetch and .then is used for promise to not be kept in pending.
+        .then(response => response.text()) //this is used as a promise for asynchronous
+        .then(sum => {
+          document.getElementById("finalsum").innerText = "Sum: " + sum;
+        })
+    }
+    // second method of using fetch a cleaner version
+    // async function populatediv2(){
+    //   const a = document.getElementById('first Number').value;
+    //   const b = document.getElementById('second Number').value;
+
+    //   const response = await fetch("http://localhost:3000/sum?a=" + a + "&b=" + b)
+    //   const ans = await response.text(); //The response.text() method is used to read the body as a plain text string.
+    //   document.getElementById('finalsum').innerHTML ="Sum:" +  ans;
+    // }
+  </script>
+</body>
+
+</html>
