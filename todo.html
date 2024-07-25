@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <div>
+    <input id="title" type="text" placeholder="title"> </input> <br> </br>
+    <input id="description" type="text" placeholder="description"> </input> <br> </br>
+    <!-- <button onclick="addtodo()">Add todo </button> -->
+
+    <div id="container"></div>
+
+  </div>
+
+
+  <script>
+    let id = 0;
+
+    async function fetchtodo() {
+      const response = await fetch("https://localhost:3000/todos");
+      const todos = await response.json();
+      updateDomtodo(todos);
+    }
+
+
+    // async function markasdone(todoId) {
+    //   await fetch(`https://localhost:3000/todos/${todoid}`, {
+    //     method: 'PATCH',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({done: true})
+    //   });
+    //   fetchtodo()
+    // }
+
+    function markasdone(todoId){
+      const parent = document.getElementById(todoId);
+      parent.children[2].innerHTML = "Done!"
+      parent.children[2].disabled = true;
+    }
+
+
+    function createchild(title, description, id) {
+      const child = document.createElement("div");        // this is bascially creeating first div inside that div the title 
+      const firstGrandChildren = document.createElement("div");
+      firstGrandChildren.innerHTML = title;
+      const secondGrandChildren = document.createElement("div");
+      secondGrandChildren.innerHTML = description;
+      const thirdGrandChildren = document.createElement("button");
+      thirdGrandChildren.innerHTML = "Mark as done";
+      thirdGrandChildren.setAttribute("onclick", `markasdone(${id})`)
+      child.appendChild(firstGrandChildren);
+      child.appendChild(secondGrandChildren);
+      child.appendChild(thirdGrandChildren);
+      child.setAttribute("id", id);
+      return child;
+
+      // this is the way basically written in the dom format
+      // document.getElementById("container").innerHTML = originalHtml + `<div>
+      //   <div>${title}</div>
+      //   <div>${description}</div>
+      //   <button> Mark as done </button>
+      //   </div> `
+
+
+    }
+
+    async function addtodo() {
+      const title = document.getElementById("title").value;
+      const description = document.getElementById("description").value;
+      const parent = document.getElementById("container");
+
+
+      parent.appendChild(createchild(title, description, id++));
+
+    //   await fetch(`http://localhost:3000/todos`, {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({ title,description })
+    //   });
+    //   fetchTodo();
+    // }
+
+    }
+    
+    // state will always be an array
+    // every element of state would have an title, description, id
+    function updateDomtodo(state) {
+      const parent = document.getElementById('container')
+      parent.innerHTML = "";
+      for (let i = 0; i < state.length; i++) {
+        const child = createchild(state[i].title, state[i].description, state[i].id);
+        parent.appendChild(child)
+      }
+
+    }
+    window.setInterval(async function () {
+      const res = await fetch("http://localhost:3000/todos")
+      const json = await res.json();
+      updateDomtodo(json)
+    } , 2000)
+
+    fetchtodo()
+  </script>
+</body>
+
+</html>
