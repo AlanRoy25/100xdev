@@ -5,6 +5,9 @@ const express = require ('express');
 const { createTodo, updateTodo } = require('./types');
 const { Todo } = require('./database');
 const app = express();
+const cors = require('cors')
+
+app.use(cors())
 
 
 
