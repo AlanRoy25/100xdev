@@ -1,7 +1,6 @@
 // write basic express boilerplate code,
 // write  express.json() middleware
 
-
 const express = require ('express');
 const { createTodo, updateTodo } = require('./types');
 const { Todo } = require('./database');

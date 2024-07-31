@@ -3,9 +3,11 @@ const mongoose = require('mongoose');
 const { boolean } = require('zod');
 const app = express();
 
+ require('dotenv').config()
+
 app.use(express.json())
 
-mongoose.connect("mongodb+srv://admin:admin@backenddb.93bwxbb.mongodb.net/Todos")
+mongoose.connect(process.env.MONGODB_URL, {useNewUrlParser: true, useUnifiedTopology: true})
 
 const todoSchema = mongoose.Schema ({
   title: String,
