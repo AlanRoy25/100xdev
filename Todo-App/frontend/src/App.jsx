@@ -1,37 +1,40 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { Createtodo } from './components/Createtodo'
-import { Todos } from './components/Todos'
+import axios from 'axios'
+
+
 
 function App() {
-  const [todos, setTodos] = useState([])
+  return (
+    <div>
+    <Todo id={3} />
+  </div>
 
-   const fetchTodos = async () => {
-    try {
-      const response = await fetch('https://localhost:3000/todos')
-      if(!response.ok){
-        throw new Error('Failed to fetch todos')
-      }
+  )
+}
 
-      const data = await response.json();
-    setTodos(data.todos)
-    }
-    catch (error) {
-      console.error('Error', error)
-    }
-   }
+  function Todo({id}){
 
-   useEffect(() => {
-    fetchTodos();
-   }, [])
+    const [todos, setTodos] = useState([])
+
+  useEffect(()=> {
+    axios.get("https://localhost:3000/todos?id=" + id)
+    .then(function(response){
+      setTodos(response.data.todos)// while using axios we need to use response.data and the final key 
+    })
+  }, [])
 
   return (
 
     <div>
-      <Createtodo setTodos = {setTodos}/>
-      <Todos todos={todos}/>
+      <h1>{todos.title}</h1>
+      <h4>{todos.description}</h4>
     </div>
   )
-}
+    
+  }
+
+
+  
 
 export default App;
