@@ -32,7 +32,7 @@ function App() {
       window.navigator.clipboard.writeText(password)
     }, [password])
 
-    useEffect(() => {
+    useEffect(() => { //whenever the page gets load it will generate a new one and if anything is checked then it will show the change
       passwordGenerator()
     }, [length, numbersallowed, characterallowed, passwordGenerator])
       
