@@ -1,4 +1,5 @@
 import Card from "./Card"
+import List from "./List"
 import Student from "./Student"
 import UserGreeting from "./UserGreeting"
 
@@ -14,6 +15,7 @@ function App() {
     <Student name = "Motu" age={42} isStudent = {true} />
     <Student />
     <UserGreeting  />
+    <List />
     </>
    
   )
